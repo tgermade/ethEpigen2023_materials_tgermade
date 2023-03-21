@@ -1,0 +1,60 @@
+---
+title: "assignment.Rmd"
+author: "tgermade"
+date: 21.03.2023
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(epiwraps)
+})
+```
+
+```{r}
+sessionInfo()
+```
+
+Check if the necessary packages are installed (not assignment relevant)  
+
+```{r}
+scanSession <- function(session, packages){
+  pkg.inst <- unlist(sapply(sess[6:8], names))
+  sapply(pkg, function(x) any(grepl(x, pkg.inst)))
+}
+```
+
+```{r}
+pkg <- c("GenomicRanges", "rtracklayer", "EnrichedHeatmap", "AnnotationHub",
+         "ensembldb", "edgeR", "esATAC", "sechm","genomation","Rsubread",
+         "Rfastp", "epiwraps")
+```
+
+```{r}
+sess <- sessionInfo()
+scan <- scanSession(sess, pkg)
+scan
+```
+
+Some packages aren't listed in sessioninfo. Check by loading:
+
+```{r, warning=FALSE, results='hide'}
+lapply(names(scan)[!scan], 
+       function(x) suppressPackageStartupMessages({
+         library(x, character.only=TRUE)
+         }) 
+       )
+```
+
+```{r}
+sess <- sessionInfo()
+all(scanSession(sess, pkg))
+```
+
+
+
+
